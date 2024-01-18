@@ -1,0 +1,49 @@
+# R1 reads from short read data. Can include multiple short read samples (as shown below)
+short_fastq_r1:
+ - {class: File, path: /path/to/short_fastq_sample_A_r1.fastq}
+ - {class: File, path: /path/to/short_fastq_sample_B_r1.fastq}
+# R2 reads from short read data. These must be given in the same order as the R1 reads
+short_fastq_r2:
+ - {class: File, path: /path/to/short_fastq_sample_A_r2.fastq}
+ - {class: File, path: /path/to/short_fastq_sample_B_r2.fastq}
+# Long read fastq data. This can be provided either as one large fastq file
+# or as multiple, smaller fastq files. They can optionally be gzipped. If gzipped,
+# then all fastq files here should be gzipped.
+# Larger files here can significantly increase run time.
+# If a single large file is provided, it will be split by the pipeline
+long_fastq:
+ - {class: File, path: /path/to/long_read_file_part1.fastq.gz}
+ - {class: File, path: /path/to/long_read_file_part2.fastq.gz}
+ - {class: File, path: /path/to/long_read_file_part3.fastq.gz}
+# Reference genome fasta
+# .fai, .amb, .ann, .bwt, .pac and .sa files should be in the same directory
+# generated with samtools and bwa
+reference:
+ class: File
+ path: /path/to/reference/genome.fa
+# GPF file compatible with circExplorer
+circExplorer_gpf:
+ class: File
+ path: /path/to/circExplorer.gpf
+# GTF file compatible with Isocirc
+isocirc_gtf:
+ class: File
+ path: /path/to/isocirc.gtf
+# Directory that contains the reference genome. Should also contain
+# the output from the STAR --runMode genomeGenerate, since STAR
+# will need that index information
+genomeDir:
+ class: Directory
+ path: /path/to/reference
+# Boolean that indicates if the long_fastq is a single large file
+# or if it has been split into multiple, smaller files
+is_long_read_pre_split: true
+# Boolean that indicates if the long_fastq file(s) is/are gzipped
+is_long_read_gzipped: true
+# STAR fusion index directory
+star_fusion_index:
+ class: Directory
+ path: /path/to/star_fusion_index/genome_lib_build_dir
+
+# Optional parameter. Sample name used for the analysis
+out_sample_name: my_sample_name
