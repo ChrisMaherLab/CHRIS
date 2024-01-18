@@ -4,6 +4,8 @@
 
 Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://wustl.edu).
 
+For additional details, see publication: PLACEHOLDER_LINK.
+
 ##
 
 ## Overview
@@ -78,6 +80,6 @@ One-base pair adjustments were made to all circRNAs detected by CIRI-long to kee
 | --- | --- |
 | first_pass_rescued_circRNAs_out.txt | First-pass rescue analysis result including rescued short read counts of each long-read circRNA. |
 | magicblast_output.txt | Magic-BLAST mapping results for each short-read sample in second-pass rescue analysis. For details please see Magic-BLAST's [manual](https://ncbi.github.io/magicblast/doc/output.html). |
-| high_conf_ref_query_pair_read_ids.txt | All high-confidence long- vs. short-read pairs (format: short_read_ID|long_read_ID) supporting long-read circRNAs in second-pass rescue analysis. |
+| high_conf_ref_query_pair_read_ids.txt | All high-confidence long- vs. short-read pairs (format: short_read_ID\|long_read_ID) supporting long-read circRNAs in second-pass rescue analysis. |
 | final_two_pass_rescue_results.txt | Aggregated first- and second-pass results. |
 
