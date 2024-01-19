@@ -72,7 +72,7 @@ One-base pair adjustments were made to all circRNAs detected by CIRI-long to kee
 | Output File Name | Description |
 | --- | --- |
 | isocirc.merged.aggregate.txt | Aggregated isoCirc results for long-read sample. For details please see isoCirc's [manual](https://github.com/Xinglab/isoCirc). |
-| ciri.long.merged.aggregate.txt | Aggregated CIRI-long results for long-read sample. For details please see CIRI-long's [manual](https://ciri-cookbook.readthedocs.io/en/latest/CIRI-long_2_usage.html#output-format). Note: Read counts are used to quantify each circRNA based on backsplice junctions (BSJ); percent spliced in (PSI) values are used to quantify each circular isoform, i.e. circRNAs that share backsplice junctions but defer in internal structure. |
+| ciri.long.merged.aggregate.txt | Aggregated CIRI-long results for long-read sample. For details please see CIRI-long's [manual](https://ciri-cookbook.readthedocs.io/en/latest/CIRI-long_2_usage.html#output-format). Note: Read counts are used to quantify each circRNA based on backsplice junctions (BSJ); percent spliced in (PSI) values are used to quantify each circular isoform, i.e. circRNAs that share BSJ but defer in internal structure. |
 
 3. Integrative rescue analysis results
    
