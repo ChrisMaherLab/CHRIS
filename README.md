@@ -33,9 +33,9 @@ This assumes you have `java` in your `$PATH`.
 This repository is organized as follows:
 | Directory | Description |
 | --- | --- |
-| pipeline | Full CHRIS workflow, which relies on tools in /tools |
-| tools | Individual steps in the workflow containing single commands or scripts |
-| example_ymls | Contains example yml files to demonstrate input format |
+| pipeline | Full CHRIS workflow, which relies on tools in /tools. |
+| tools | Individual steps in the workflow containing single commands or scripts. |
+| example_ymls | Contains example yml files to demonstrate input format. |
 
 ## Inputs
 
@@ -46,7 +46,7 @@ In addition to the examples found in the example_ymls directory, a comprehensive
 | Input Label | Description |
 | --- | --- |
 | short_fastq_r1 | List of fastq files containing R1 paired end reads. 1+ samples. |
-| short_fastq_r2 | List of fastq files containing R2 paried end reads. 1+ samples. Must be same order as short_fastq_r1 sampels |
+| short_fastq_r2 | List of fastq files containing R2 paried end reads. 1+ samples. Must be same order as short_fastq_r1 samples. |
 | long_fastq | Long read fastq file(s). May be a single large file or multiple, smaller files. Larger files will significantly increase run time. Can either be all gzipped or all unzipped. Please use 1 sample at a time. |
 | reference | Reference genome fasta. Should have .fai (samtools index) and .amb/.ann/.bwt/.pac/.sa (bwa index) files in the same directory. |
 | circExplorer_gpf | GPF compatible with CIRCexplorer2 tool. For detailed instruction, see CIRCexplorer2's [setup page](https://circexplorer2.readthedocs.io/en/latest/tutorial/setup/). |
