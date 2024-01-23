@@ -26,6 +26,10 @@ inputs:
         type: File
         inputBinding:
             position: 3
+    long_read_ids:
+        type: File
+        inputBinding:
+            position: 4
 
 
 outputs:
@@ -37,5 +41,13 @@ outputs:
         type: File
         outputBinding:
             glob: ciri.long.second.pass.only.txt
+    isocirc_chimeric_support:
+        type: File
+        outputBinding:
+            glob: isocirc.second.pass.chimeric.support.only.txt
+    ciri_chimeric_support:
+        type: File
+        outputBinding:
+            glob: ciri.long.second.pass.chimeric.support.only.txt
 
 

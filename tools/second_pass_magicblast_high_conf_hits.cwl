@@ -44,5 +44,13 @@ outputs:
         type: File
         outputBinding:
             glob: high_conf_ref_magicblast_output_filtered.txt
+    long_read_ids:
+        type: File
+        outputBinding:
+            glob: long_read_ids.txt
+    short_read_ids:
+        type: File
+        outputBinding:
+            glob: short_read_ids.txt
  
 
