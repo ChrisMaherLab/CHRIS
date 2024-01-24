@@ -1,5 +1,5 @@
 
-# CHRIS: CHaracterizing CircRNA by Integrative Sequencing
+# CHRIS: CHaracterizing CircRNAs by Integrative Sequencing
 ##
 
 Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://wustl.edu).
