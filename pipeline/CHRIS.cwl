@@ -109,11 +109,12 @@ steps:
             [circRNA_annot]
 
     annotate_junctions_add_header:
-        run: ../add_generic_header.cwl
+        run: ../tools/add_generic_header.cwl
         scatter: [infile]
         in:
             infile: annotate_junctions/circRNA_annot
-            cols: 18
+            cols:
+                default: 18
             out_name:
                 default: "circularRNA_known.txt"
         out:
@@ -149,7 +150,7 @@ steps:
         run: ../tools/convert_CIRCexplorer_annot_to_bed.cwl
         in:
             sample_names: extract_short_read_sample_names/sample_name
-            annot: annotate_junctions_add_header/circRNA_annot
+            annot: annotate_junctions_add_header/out
         out:
             [circRNA_annot_bed]
 
@@ -192,7 +193,8 @@ steps:
         scatter: [infile]
         in:
             infile: isocirc/isocirc_bed
-            cols: 12
+            cols: 
+                default: 12
             out_name:
                 default: "isocirc_bed"
         out:
@@ -203,7 +205,8 @@ steps:
         scatter: [infile]
         in:
             infile: isocirc/isocirc_out
-            cols: 35
+            cols:
+                default: 35
             out_name:
                 default: "isocirc_out"
         out:
@@ -220,11 +223,12 @@ steps:
         out:
             [reads, aggregate, cleaned_bed]
 
-    ciri_long_collaps_add_header:
-        run: ../add_generic_header.cwl
+    ciri_long_collapse_add_header:
+        run: ../tools/add_generic_header.cwl
         in:
             infile: ciri_long_collapse/info
-            cols: 9
+            cols: 
+                default: 9
             out_name: 
                 default: "ciri_long_collapse.info"
         out:
@@ -285,7 +289,8 @@ steps:
         scatter: [infile]
         in:
             infile: annotate_junctions2/circRNA_annot
-            cols: 18
+            cols:
+                default: 18
             out_name:
                 default: "circularRNA_known.txt"
         out:
@@ -295,7 +300,8 @@ steps:
         run: ../tools/add_generic_header.cwl
         in:
             infile: circ_annotation_to_bed/circRNA_annot_bed
-            cols: 12
+            cols:
+                default: 12
             out_name:
                 default: "circularRNA_known.bed"
         out:
@@ -305,7 +311,8 @@ steps:
         run: ../tools/add_generic_header.cwl
         in:
             infile: pass_one_rescue_prep/bed
-            cols: 12
+            cols: 
+                default: 12
             out_name:
                 default: "combined.tools.first.pass.rescue.bed"
         out:
@@ -316,7 +323,7 @@ steps:
         in:
             short_read_bed: circ_annot_add_header/out
 #            short_read_bed: circ_annotation_to_bed/circRNA_annot_bed
-            long_read_bed: pass_one_bed_add_header/bed
+            long_read_bed: pass_one_bed_add_header/out
 #            long_read_bed: pass_one_rescue_prep/bed
             short_read_circRNAs: annotate_junctions2_add_header/out
 #            short_read_circRNAs: annotate_junctions2/circRNA_annot
@@ -383,7 +390,8 @@ steps:
         run: ../tools/add_generic_header.cwl
         in:
             infile: chimeric_read_extraction/merged
-            cols: 14
+            cols: 
+                default: 14
             out_name:
                 default: "merged_chimeric_junctions.txt"
         out:
@@ -410,7 +418,8 @@ steps:
         run: ../tools/add_generic_header.cwl
         in:
             infile: magicblast_make_unique/unique
-            cols: 25
+            cols: 
+                default: 25
             out_name:
                 default: "unique.txt"
         out:
