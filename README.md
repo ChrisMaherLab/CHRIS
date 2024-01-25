@@ -1,4 +1,4 @@
-
+<img src="https://github.com/ChrisMaherLab/CHRIS/blob/main/images/logo.png" width="300">
 # CHRIS: CHaracterizing CircRNAs by Integrative Sequencing
 ##
 
