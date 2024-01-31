@@ -13,7 +13,7 @@ For additional details, see publication: PLACEHOLDER_LINK.
 
 CHRIS (CHaracterizing CircRNAs by Integrative Sequencing) is an open-source [Common Work Flow](https://www.commonwl.org/) (CWL) pipeline leveraging both short-read and long-read (Oxford Nanopore or PacBio) RNA-seq data to identify novel, bona fide circRNA isoforms. In short, this two-pass rescue pipeline consolidates all novel circRNAs detected using long-read RNA-seq and identifies those that have ample support in matching short-read RNA-seq samples. In the first-pass analysis, splice sites in long-read circRNAs are used as a guiding annotation set to rescue circRNAs in the short-read samples. In the second-pass analysis, corresponding raw reads from long-read circRNAs not rescued by the previous step are converted into a Magic-BLAST reference database; all chimeric short reads are then mapped against the reference to further rescue long-read circRNAs.
 
-![Workflow Schematic](images/workflow_schematic.png "Workflow Schematic")
+![Workflow Schematic](images/schematic.png "Workflow Schematic")
 
 ## Quick Start
 
