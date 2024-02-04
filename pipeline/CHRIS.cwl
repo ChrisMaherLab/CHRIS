@@ -49,7 +49,6 @@ outputs:
     circexplorer2_annotations:
         type: File[]
         outputSource: annotate_junctions/circRNA_annot
-        #headerless version
     isocirc_calls:
         type: File
         outputSource: isocirc_cleanup/aggregate
@@ -216,9 +215,7 @@ steps:
         run: ../tools/isocirc_cleanup.cwl
         in:
             beds: isocirc_add_header1/out
-#            beds: isocirc/isocirc_bed
             iso_outs: isocirc_add_header2/out
-#            iso_outs: isocirc/isocirc_out
             sample_name: out_sample_name
         out:
             [reads, aggregate, cleaned_bed]
@@ -239,7 +236,6 @@ steps:
         in:
             sample_name: out_sample_name
             info_file: ciri_long_collapse_add_header/out
-#            info_file: ciri_long_collapse/info
             isoforms_file: ciri_long_collapse/isoforms
             reads_file: ciri_long_collapse/reads
         out:
@@ -322,11 +318,8 @@ steps:
         run: ../tools/first_pass_cleanup.cwl
         in:
             short_read_bed: circ_annot_add_header/out
-#            short_read_bed: circ_annotation_to_bed/circRNA_annot_bed
             long_read_bed: pass_one_bed_add_header/out
-#            long_read_bed: pass_one_rescue_prep/bed
             short_read_circRNAs: annotate_junctions2_add_header/out
-#            short_read_circRNAs: annotate_junctions2/circRNA_annot
             sample_names: extract_short_read_sample_names/sample_name
         out:
             [rescued, non_rescued]
@@ -429,9 +422,7 @@ steps:
         run: ../tools/second_pass_magicblast_high_conf_hits.cwl
         in:
             magicblast: magicblast_add_header/out
-#            magicblast: magicblast_make_unique/unique
             junctions: chimeric_read_extraction_add_header/out
-#            junctions: chimeric_read_extraction/merged
         out:
             [high_conf_long_read_ids, high_conf_short_read_ids, high_conf_ref_query_pair, high_conf_magicblast_hits, long_read_ids, short_read_ids]
 
@@ -449,7 +440,6 @@ steps:
         run: ../tools/first_and_second_pass_cleanup.cwl
         in:
             short_bed: circ_annot_add_header/out
-#            short_bed: circ_annotation_to_bed/circRNA_annot_bed
             first_pass_result: first_pass_cleanup/non_rescued
             first_pass_rescued: first_pass_cleanup/rescued
             isocirc_result: high_conf_circRNA_extraction/isocirc
