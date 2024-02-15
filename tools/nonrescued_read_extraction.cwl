@@ -16,7 +16,7 @@ requirements:
       - entryname: "helper.sh"
         entry: |
             nonrescued_circRNAs=$1
-            isocirc_out=$2
+            isocirc_output=$2
             ciri_long_out=$3
             long_read_fastas=$4
 
