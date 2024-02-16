@@ -1,0 +1,56 @@
+# R1 reads from short read data. Can include mulitple short read samples (as shown below)
+# Example data is based on GSM6856717 and GSM7979681 on GEO
+short_fastq_r1:
+ - {class: File, path: /path/to/short_read_sample1_R1.fastq}
+ - {class: File, path: /path/to/short_read_sample2_R1.fastq}
+short_fastq_r2:
+ - {class: File, path: /path/to/short_read_sample1_R2.fastq}
+ - {class: File, path: /path/to/short_read_sample2_R2.fastq}
+# Long read fastq data. This can be provided either as one large fastq file
+# or as multiple, smaller fastq files. They can optionally be gzipped. If gzipped,
+# then all fastq files here should be gzipped.
+# Larger files here can significantly increase run time.
+# If a single large file is provided, it will be split by the pipeline
+long_fastq:
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_1.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_2.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_3.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_4.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_5.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_6.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_7.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_8.fastq.gz}
+ - {class: File, path: /path/to/CHRIS/example_data/long_read/long_read_9.fastq.gz}
+# Reference genome fasta
+# .fai, .amb, .ann, .bwt, .pac and .sa files should be in the same directory
+# generated with samtools and bwa
+reference:
+ class: File
+ path: /path/to/reference/genome.fa
+# GPF file compatible with circExplorer
+# If using example_data, extract the gpf file first using gunzip
+circExplorer_gpf:
+ class: File
+ path: /path/to/CHRIS/example_data/annotation/hg38.circExplorer.gpf
+# GTF file compatible with Isocirc
+# If using example_data, extract and concatentate part1 and part2 of the gtf
+# Example: gunzip hg38.part1.gtf.gz > hg38.gtf; gunzip hg38.part2.gtf.gz >> hg38.gtf
+isocirc_gtf:
+ class: File
+ path:  /path/to/CHRIS/example_data/annotation/hg38.gtf
+# Directory that contains the reference genome. Should also contain
+# # the output from the STAR --runMode genomeGenerate, since STAR
+# # will need that index information
+genomeDir:
+ class: Directory
+ path: /path/to/reference
+# Boolean that indicates if the long_fastq is a single large file
+# or if it has been split into multiple, smaller files
+is_long_read_pre_split: true
+# Boolean that indicates if the long_fastq file(s) is/are gzipped
+is_long_read_gzipped: true
+# STAR fusion index directory
+star_fusion_index:
+ class: Directory
+ path: /path/to/star_fusion_index/genome_lib_build_dir
+  
