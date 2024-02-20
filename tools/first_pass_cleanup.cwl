@@ -46,5 +46,9 @@ outputs:
         type: File
         outputBinding:
             glob: first_pass_nonrescued_long_read_circRNAs.txt
+    long_read:
+        type: File
+        outputBinding:
+            glob: first_pass_long_read_circRNAs.txt
  
 

@@ -322,7 +322,7 @@ steps:
             short_read_circRNAs: annotate_junctions2_add_header/out
             sample_names: extract_short_read_sample_names/sample_name
         out:
-            [rescued, non_rescued]
+            [rescued, non_rescued, long_read]
 
     read_extraction:
         run: ../tools/nonrescued_read_extraction.cwl
@@ -440,7 +440,7 @@ steps:
         run: ../tools/first_and_second_pass_cleanup.cwl
         in:
             short_bed: circ_annot_add_header/out
-            first_pass_result: first_pass_cleanup/non_rescued
+            first_pass_result: first_pass_cleanup/long_read
             first_pass_rescued: first_pass_cleanup/rescued
             isocirc_result: high_conf_circRNA_extraction/isocirc
             ciri_long_result: high_conf_circRNA_extraction/ciri
