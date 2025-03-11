@@ -65,15 +65,14 @@ CHRIS reports three categories of output files:
 
 | Output File Name | Description |
 | --- | --- |
-| circularRNA_known.txt | CIRCexplorer2 results for each short-read sample. For details please see CIRCexplorer2's [manual](https://circexplorer2.readthedocs.io/en/latest/modules/annotate). |
+| circularRNA_known.txt | Filtered CIRCexplorer2 results for each short-read sample. For details please see CIRCexplorer2's [manual](https://circexplorer2.readthedocs.io/en/latest/modules/annotate). |
+| circularRNA_known.filter_info.bed | Unfiltered CIRCexplorer2 results for each short-read sample, with info about filter status. |
 
 2. Long-read based circRNA detection results
-One-base pair adjustments were made to all circRNAs detected by CIRI-long to keep splice site boundary formats consistent with isoCirc and CIRCexplorer2 results.
 
 | Output File Name | Description |
 | --- | --- |
 | isocirc.merged.aggregate.txt | Aggregated isoCirc results for long-read sample. For details please see isoCirc's [manual](https://github.com/Xinglab/isoCirc). |
-| ciri.long.merged.aggregate.txt | Aggregated CIRI-long results for long-read sample. For details please see CIRI-long's [manual](https://ciri-cookbook.readthedocs.io/en/latest/CIRI-long_2_usage.html#output-format). Note: Read counts are used to quantify each circRNA based on backsplice junctions (BSJ); percent spliced in (PSI) values are used to quantify each circular isoform, i.e. circRNAs that share BSJ but defer in internal structure. |
 
 3. Integrative rescue analysis results
    
@@ -83,4 +82,3 @@ One-base pair adjustments were made to all circRNAs detected by CIRI-long to kee
 | magicblast_output.txt | Magic-BLAST mapping results for each short-read sample in second-pass rescue analysis. For details please see Magic-BLAST's [manual](https://ncbi.github.io/magicblast/doc/output.html). |
 | high_conf_ref_query_pair_read_ids.txt | All high-confidence long- vs. short-read pairs (format: short_read_ID\|long_read_ID) supporting long-read circRNAs in second-pass rescue analysis. |
 | final_two_pass_rescue_results.txt | Aggregated first- and second-pass results. |
-
