@@ -51,7 +51,7 @@ In addition to the examples found in the example_ymls directory, a comprehensive
 | long_fastq | Long read fastq file(s). May be a single large file or multiple, smaller files. Larger files will significantly increase run time. Can either be all gzipped or all unzipped. Please use 1 sample at a time. |
 | reference | Reference genome fasta. Should have .fai (samtools index) and .amb/.ann/.bwt/.pac/.sa (bwa index) files in the same directory. |
 | circExplorer_gpf | GPF compatible with CIRCexplorer2 tool. For detailed instruction, see CIRCexplorer2's [setup page](https://circexplorer2.readthedocs.io/en/latest/tutorial/setup/). |
-| isocirc_gtf | GTF compatible with isoCirc and CIRI-long tools. Please ensure the GTF contains exon IDs. We recommend using [UCSC Utilities](http://hgdownload.soe.ucsc.edu/admin/exe/) for proper conversion. |
+| isocirc_gtf | GTF compatible with isoCirc. Please ensure the GTF contains exon IDs. We recommend using [UCSC Utilities](http://hgdownload.soe.ucsc.edu/admin/exe/) for proper conversion. |
 | genomeDir | Directory containing STAR index output. |
 | is_long_read_pre_split | Boolean indicating if long_fastq is a single large sample (true) or multiple smaller files (false). |
 | is_long_read_gzipped | Boolean indicating if file(s) in long_fastq are gzipped (true) or not (false). |
