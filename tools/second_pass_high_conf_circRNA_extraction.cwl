@@ -1,7 +1,7 @@
 #!/usr/bin/env cwl-runner
 class: CommandLineTool
 cwlVersion: v1.0
-label: "Extract high confidence reads from isocirc/ciri output based on magicblast output"
+label: "Extract high confidence reads from isocirc output based on magicblast output"
 baseCommand: ["python", "/usr/bin/extract_high_conf_circRNAs.py"]
 requirements:
     - class: ShellCommandRequirement
@@ -22,14 +22,14 @@ inputs:
         type: File
         inputBinding:
             position: 2
-    ciri_reads:
-        type: File
-        inputBinding:
-            position: 3
+    #ciri_reads:
+    #    type: File
+    #    inputBinding:
+    #        position: 3
     long_read_ids:
         type: File
         inputBinding:
-            position: 4
+            position: 3
 
 
 outputs:
@@ -37,17 +37,17 @@ outputs:
         type: File
         outputBinding:
             glob: isocirc.second.pass.only.txt
-    ciri:
-        type: File
-        outputBinding:
-            glob: ciri.long.second.pass.only.txt
+#    ciri:
+#        type: File
+#        outputBinding:
+#            glob: ciri.long.second.pass.only.txt
     isocirc_chimeric_support:
         type: File
         outputBinding:
             glob: isocirc.second.pass.chimeric.support.only.txt
-    ciri_chimeric_support:
-        type: File
-        outputBinding:
-            glob: ciri.long.second.pass.chimeric.support.only.txt
+#    ciri_chimeric_support:
+#        type: File
+#        outputBinding:
+#            glob: ciri.long.second.pass.chimeric.support.only.txt
 
 
