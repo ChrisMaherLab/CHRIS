@@ -40,6 +40,10 @@ inputs:
     star_fusion_index:
         type: Directory
         doc: "Directory containing STAR fusion index"
+    mean_read_filter:
+        type: int?
+        default: 0
+        doc: "Filter for minimum mean read support value across samples"
     out_sample_name:
         type: string?
         default: "sample_name"
@@ -52,9 +56,6 @@ outputs:
     isocirc_calls:
         type: File
         outputSource: isocirc_cleanup/aggregate
-    CIRI_long_calls:
-        type: File
-        outputSource: ciri_long_cleanup/aggregate
     first_pass_rescue:
         type: File
         outputSource: first_pass_cleanup/rescued
@@ -67,8 +68,15 @@ outputs:
     first_and_second_pass_result:
         type: File
         outputSource: first_and_second_pass_cleanup/out
+    circ_annot_filter:
+        type: File
+        outputSource: circ_annotation_to_bed/circ_annot_bed_filter_result
+    out_directory:
+        type: Directory
+        outputSource: staged_output/out
 
 steps:
+    #Step 00
     extract_short_read_sample_names:
         run: ../tools/extract_sample_name_from_prefix.cwl
         scatter: [file_name]
@@ -77,6 +85,7 @@ steps:
         out:
             [sample_name]
 
+    #Step 01 align short reads
     short_read_alignment:
         run: ../tools/STAR_align_short_reads.cwl
         scatter: [fastq_r1, fastq_r2]
@@ -89,6 +98,7 @@ steps:
         out:
             [aligned_bam, junction]
 
+    #Step 02 circexplorer parse
     parse_junctions:
         run: ../tools/CIRCexplorer_parse.cwl
         scatter: [junction]
@@ -97,6 +107,7 @@ steps:
         out:
             [back_splice_junction]
 
+    #Step 03a circexplorer annotate
     annotate_junctions:
         run: ../tools/CIRCexplorer_annotate.cwl
         scatter: [junction_bed]
@@ -107,6 +118,7 @@ steps:
         out:
             [circRNA_annot]
 
+    #Step 03b
     annotate_junctions_add_header:
         run: ../tools/add_generic_header.cwl
         scatter: [infile]
@@ -119,6 +131,7 @@ steps:
         out:
             [out]
 
+    #Step 04 split long fastq
     optionally_split_fastq:
         run: ../tools/optional_fastq_split.cwl
         in:
@@ -128,6 +141,7 @@ steps:
         out:
             [split_fastq]
 
+    #Step 05a 
     combine_fastq_lists:
         run: ../tools/interleave_arrays.cwl
         in:
@@ -136,6 +150,7 @@ steps:
         out:
             [merged_array]
 
+    #Step 05b lordec long read correction
     lordec_correction:
         run: ../tools/lordec_read_correction.cwl
         scatter: [split_long_read]
@@ -145,14 +160,17 @@ steps:
         out:
             [corrected_reads]
 
+    #Step 06 circexplorer to bed
     circ_annotation_to_bed:
         run: ../tools/convert_CIRCexplorer_annot_to_bed.cwl
         in:
             sample_names: extract_short_read_sample_names/sample_name
             annot: annotate_junctions_add_header/out
+            mean_read_filter: mean_read_filter
         out:
-            [circRNA_annot_bed]
+            [circRNA_annot_bed, circ_annot_bed_filter_result]
 
+    #Step 07 isocirc
     isocirc:
         run: ../tools/isocirc.cwl
         scatter: [corrected_fasta]
@@ -164,29 +182,8 @@ steps:
         out:
             [isocirc_bed, isocirc_out]
 
-    ciri_long_call:
-        run: ../tools/CIRI_long.cwl
-        scatter: [fasta]
-        in:
-            fasta: lordec_correction/corrected_reads
-            reference: reference
-            sample_name: out_sample_name
-            annot: isocirc_gtf
-        out:
-            [cand_circ, json, log, low_conf]
 
-    ciri_long_collapse:
-        run: ../tools/CIRI_long_collapse.cwl
-        in:
-            cand_circ_fasta: ciri_long_call/cand_circ
-            sample_name: out_sample_name
-            annot: isocirc_gtf
-            reference: reference
-            known_circ_bed: circ_annotation_to_bed/circRNA_annot_bed
-            low_conf: ciri_long_call/low_conf 
-        out:
-            [expression, info, isoforms, log, reads]
-
+    #Step 10a
     isocirc_add_header1:
         run: ../tools/add_generic_header.cwl
         scatter: [infile]
@@ -199,6 +196,7 @@ steps:
         out:
             [out]
 
+    #Step 10b
     isocirc_add_header2:
         run: ../tools/add_generic_header.cwl
         scatter: [infile]
@@ -211,6 +209,7 @@ steps:
         out:
             [out]
 
+    #Step 10-11 isorcirc cleanup
     isocirc_cleanup:
         run: ../tools/isocirc_cleanup.cwl
         in:
@@ -220,36 +219,18 @@ steps:
         out:
             [reads, aggregate, cleaned_bed]
 
-    ciri_long_collapse_add_header:
-        run: ../tools/add_generic_header.cwl
-        in:
-            infile: ciri_long_collapse/info
-            cols: 
-                default: 9
-            out_name: 
-                default: "ciri_long_collapse.info"
-        out:
-            [out]
 
-    ciri_long_cleanup:
-        run: ../tools/CIRI_long_cleanup.cwl
-        in:
-            sample_name: out_sample_name
-            info_file: ciri_long_collapse_add_header/out
-            isoforms_file: ciri_long_collapse/isoforms
-            reads_file: ciri_long_collapse/reads
-        out:
-            [bed, aggregate, reads]
-
+    #Step 13
     pass_one_rescue_prep:
         run: ../tools/rescue_prep_one.cwl
         in:
             isocirc_bed: isocirc_cleanup/cleaned_bed
-            ciri_long_bed: ciri_long_cleanup/bed
+            #ciri_long_bed: ciri_long_cleanup/bed
             sample_name: out_sample_name
         out:
             [bed, gpf, circexplorer_gpf, gtf]
 
+    #Step 14 short read rescue align
     short_read_rescue_alignment:
         run: ../tools/STAR_align_short_reads.cwl
         scatter: [fastq_r1, fastq_r2]
@@ -262,6 +243,7 @@ steps:
         out:
             [aligned_bam, junction]
 
+    #Step 15 rescue parse
     parse_junctions2:
         run: ../tools/CIRCexplorer_parse.cwl
         scatter: [junction]
@@ -270,6 +252,7 @@ steps:
         out:
             [back_splice_junction]
 
+    #Step 16 resuce annotate
     annotate_junctions2:
         run: ../tools/CIRCexplorer_annotate.cwl
         scatter: [junction_bed]
@@ -280,6 +263,7 @@ steps:
         out:
             [circRNA_annot]
 
+    #Step 17a
     annotate_junctions2_add_header:
         run: ../tools/add_generic_header.cwl
         scatter: [infile]
@@ -292,6 +276,7 @@ steps:
         out:
             [out]
 
+    #Step 17b
     circ_annot_add_header:
         run: ../tools/add_generic_header.cwl
         in:
@@ -303,6 +288,7 @@ steps:
         out:
             [out]
 
+    #Step 17c
     pass_one_bed_add_header:
         run: ../tools/add_generic_header.cwl
         in:
@@ -314,6 +300,7 @@ steps:
         out:
             [out]
 
+    #Step 17d
     first_pass_cleanup:
         run: ../tools/first_pass_cleanup.cwl
         in:
@@ -324,16 +311,17 @@ steps:
         out:
             [rescued, non_rescued, long_read]
 
+    #Step 18 read extraction
     read_extraction:
         run: ../tools/nonrescued_read_extraction.cwl
         in:
             nonrescued_circRNAs: first_pass_cleanup/non_rescued
             isocirc_out: isocirc_cleanup/aggregate
-            ciri_long_out: ciri_long_cleanup/aggregate
             corrected_reads: lordec_correction/corrected_reads
         out:
             [non_rescued_fasta]
 
+    #Step 19 magicblast mkblastdb
     makeblastdb:
         run: ../tools/magicblast_makeblastdb.cwl
         in:
@@ -341,6 +329,7 @@ steps:
         out:
             [db]
 
+    #Step 20 magicblast mapping
     magicblast_mapping:
         run: ../tools/magicblast_mapping.cwl
         scatter: [r1, r2, sample_name]
@@ -352,7 +341,8 @@ steps:
             sample_name: extract_short_read_sample_names/sample_name
         out:
             [out]
-    
+   
+    #Step 21 read extraction 
     chimeric_read_extraction:
         run: ../tools/second_pass_chimeric_read_extraction.cwl
         in:
@@ -360,6 +350,7 @@ steps:
         out:
             [merged, read_ids]
 
+    #Step 22 star fusion
     star_fusion:
         run: ../tools/STAR_fusion.cwl
         scatter: [r1,r2,sample_name]
@@ -372,6 +363,7 @@ steps:
         out:
             [predictions]
 
+    #Step 23a read extraction
     extract_star_reads:
         run: ../tools/second_pass_star_read_extraction.cwl
         in:
@@ -379,6 +371,7 @@ steps:
         out:
             [read_ids]
 
+    #Step 23b 
     chimeric_read_extraction_add_header:
         run: ../tools/add_generic_header.cwl
         in:
@@ -390,6 +383,7 @@ steps:
         out:
             [out]
 
+    #Step 24a magicblast filter
     magicblast_read_filter:
         run: ../tools/second_pass_magicblast_read_filter.cwl
         scatter: [magicblast_out]
@@ -400,6 +394,7 @@ steps:
         out:
             [filtered]
 
+    #Step 24b
     magicblast_make_unique:
         run: ../tools/make_unique.cwl
         in:
@@ -407,6 +402,7 @@ steps:
         out:
             [unique]
 
+    #Step 24c
     magicblast_add_header:
         run: ../tools/add_generic_header.cwl
         in:
@@ -418,6 +414,7 @@ steps:
         out:
             [out]
 
+    #Step 25
     high_conf_hits:
         run: ../tools/second_pass_magicblast_high_conf_hits.cwl
         in:
@@ -426,16 +423,17 @@ steps:
         out:
             [high_conf_long_read_ids, high_conf_short_read_ids, high_conf_ref_query_pair, high_conf_magicblast_hits, long_read_ids, short_read_ids]
 
+    #Step 26 Extract top hits
     high_conf_circRNA_extraction:
         run: ../tools/second_pass_high_conf_circRNA_extraction.cwl
         in:
             magicblast_reads: high_conf_hits/high_conf_long_read_ids
             isocirc_reads: isocirc_cleanup/aggregate
-            ciri_reads: ciri_long_cleanup/aggregate
             long_read_ids: high_conf_hits/long_read_ids
         out:
-            [isocirc, ciri, isocirc_chimeric_support, ciri_chimeric_support]
+            [isocirc, isocirc_chimeric_support]
 
+    #Step 27 cleanup
     first_and_second_pass_cleanup:
         run: ../tools/first_and_second_pass_cleanup.cwl
         in:
@@ -443,8 +441,19 @@ steps:
             first_pass_result: first_pass_cleanup/long_read
             first_pass_rescued: first_pass_cleanup/rescued
             isocirc_result: high_conf_circRNA_extraction/isocirc
-            ciri_long_result: high_conf_circRNA_extraction/ciri
             iso_low_conf: high_conf_circRNA_extraction/isocirc_chimeric_support
-            ciri_low_conf: high_conf_circRNA_extraction/ciri_chimeric_support
+        out:
+            [out]
+
+    staged_output:
+        run: ../tools/staged_output.cwl
+        in:
+            circexplorer2_annotation: annotate_junctions/circRNA_annot
+            isocirc_calls: isocirc_cleanup/aggregate
+            first_pass_rescue: first_pass_cleanup/rescued
+            magicblast_mapping_result: magicblast_mapping/out
+            high_confidence_magicblast_hits: high_conf_hits/high_conf_ref_query_pair
+            first_and_second_pass_result: first_and_second_pass_cleanup/out
+            circ_annot_filter: circ_annotation_to_bed/circ_annot_bed_filter_result
         out:
             [out]

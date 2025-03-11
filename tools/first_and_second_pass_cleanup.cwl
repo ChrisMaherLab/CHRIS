@@ -33,18 +33,18 @@ inputs:
         type: File
         inputBinding:
             position: 4
-    ciri_long_result:
-        type: File
-        inputBinding:
-            position: 5
+   # ciri_long_result:
+   #     type: File
+   #     inputBinding:
+   #         position: 5
     iso_low_conf:
         type: File
         inputBinding:
-            position: 7
-    ciri_low_conf:
-        type: File
-        inputBinding:
-            position: 8
+            position: 5
+   # ciri_low_conf:
+   #     type: File
+   #     inputBinding:
+   #         position: 8
 
 
 outputs:

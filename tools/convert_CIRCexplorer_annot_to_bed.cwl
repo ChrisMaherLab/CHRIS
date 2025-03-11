@@ -11,21 +11,32 @@ requirements:
     - class: DockerRequirement
       dockerPull: "jbwebster/sidi_r"
 
+arguments: [
+ { valueFrom: $(runtime.outdir), position: 1}
+]
 
 inputs:
+    mean_read_filter:
+        type: int
+        inputBinding:
+            position: 2
     sample_names:
         type: string[]
         inputBinding:
-            position: 1
+            position: 3
     annot:
         type: File[]
         inputBinding:
-            position: 2
+            position: 4
 
 
 outputs:
     circRNA_annot_bed:
-        type: stdout
-
-stdout: "circularRNA_known.bed"
+        type: File
+        outputBinding:
+            glob: circularRNA_known.bed
+    circ_annot_bed_filter_result:
+        type: File
+        outputBinding:
+            glob: circularRNA_known.filter_info.bed
 
