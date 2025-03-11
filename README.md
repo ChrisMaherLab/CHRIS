@@ -56,6 +56,7 @@ In addition to the examples found in the example_ymls directory, a comprehensive
 | is_long_read_pre_split | Boolean indicating if long_fastq is a single large sample (true) or multiple smaller files (false). |
 | is_long_read_gzipped | Boolean indicating if file(s) in long_fastq are gzipped (true) or not (false). |
 | star_fusion_index | Directory containing STAR fusion index. We recommend downloading from the [Broad Institute](https://data.broadinstitute.org/Trinity/CTAT_RESOURCE_LIB/). |
+| mean_read_filter | Optional. Minimum mean read support across samples. Default = 0 |
 | out_sample_name | Optional. Sample name. |
 
 ## Outputs
