@@ -10,7 +10,7 @@ requirements:
       ramMin: 64000
       coresMin: 16
     - class: DockerRequirement
-      dockerPull: "genomicpariscentre/kentutils"
+      dockerPull: "jbwebster/kentutils"
     - class: InitialWorkDirRequirement
       listing:
       - entryname: "helper.sh"
@@ -33,7 +33,7 @@ requirements:
 
             #genePredToGtf "file" ${sample_name}.combined.tools.first.pass.rescue.gpf ${sample_name}.combined.tools.first.pass.rescue.gtf
 
-            genePredToGtf "file" ${sample_name}.isocirc.first.pass.rescue.circexplorer.gpf ${sample_name}.isocirc.first.pass.rescue.gtf
+            genePredToGtf "file" ${sample_name}.isocirc.first.pass.rescue.gpf ${sample_name}.isocirc.first.pass.rescue.gtf
 
 
 
