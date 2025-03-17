@@ -71,9 +71,6 @@ outputs:
     circ_annot_filter:
         type: File
         outputSource: circ_annotation_to_bed/circ_annot_bed_filter_result
-    out_directory:
-        type: Directory
-        outputSource: staged_output/out
 
 steps:
     #Step 00
@@ -445,15 +442,3 @@ steps:
         out:
             [out]
 
-    staged_output:
-        run: ../tools/staged_output.cwl
-        in:
-            circexplorer2_annotation: annotate_junctions/circRNA_annot
-            isocirc_calls: isocirc_cleanup/aggregate
-            first_pass_rescue: first_pass_cleanup/rescued
-            magicblast_mapping_result: magicblast_mapping/out
-            high_confidence_magicblast_hits: high_conf_hits/high_conf_ref_query_pair
-            first_and_second_pass_result: first_and_second_pass_cleanup/out
-            circ_annot_filter: circ_annotation_to_bed/circ_annot_bed_filter_result
-        out:
-            [out]
