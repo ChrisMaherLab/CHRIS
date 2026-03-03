@@ -5,7 +5,7 @@
 
 Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington University in St. Louis](http://wustl.edu).
 
-For additional details, see publication: PLACEHOLDER_LINK.
+For additional details, see [publication](https://aacrjournals.org/cancerres/article-abstract/86/5/1300/774878/Integration-of-Short-and-Long-Read-RNA-Sequencing?redirectedFrom=fulltext).
 
 ##
 
