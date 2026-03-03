@@ -7,6 +7,10 @@ Developed by the [Christopher Maher Lab](http://www.maherlab.com) at [Washington
 
 For additional details, see [publication](https://aacrjournals.org/cancerres/article-abstract/86/5/1300/774878/Integration-of-Short-and-Long-Read-RNA-Sequencing?redirectedFrom=fulltext).
 
+Please cite CHRIS as:
+
+Sidi Z. Swift, Jace Webster, Hung Mai, Ghofran Othoum, Li Lin, Amy Ly, Emily B. Rozycki, Jacqueline L. Mudd, Emily Coonrod, Ashna Agarwal, Ryan C. Fields, Christopher A. Maher; Integration of Short-  and Long-Read RNA Sequencing Enables the Discovery of Circular RNAs. Cancer Res 1 March 2026; 86 (5): 1300–1318. https://doi.org/10.1158/0008-5472.CAN-25-1114
+
 ##
 
 ## Overview
